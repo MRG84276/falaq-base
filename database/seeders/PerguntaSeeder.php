@@ -36,6 +36,7 @@ class PerguntaSeeder extends Seeder
         for ($j = 1; $j <= 5; $j++) {
             Pergunta::create([
                 'evento_id'  => 2,
+                'user_id'    => 1,
                 'texto'      => "Pergunta do workshop #{$j}: O que é o Service Container?",
                 'status'     => 'aprovado',
             ]);
