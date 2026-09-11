@@ -8,6 +8,17 @@ return new class extends Migration
 {
     public function up(): void
     {
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
+        });
+
+
         Schema::create('eventos', function (Blueprint $table) {
             $table->id();
             $table->string('titulo');
@@ -19,6 +30,7 @@ return new class extends Migration
         Schema::create('perguntas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('evento_id')->constrained('eventos')->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->text('texto');
             $table->string('status')->default('pendente');
             $table->timestamps();
