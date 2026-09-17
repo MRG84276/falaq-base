@@ -13,6 +13,13 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
+    protected $table = 'usuarios';
+
+    public function perguntas()
+    {
+       return $this->hasMany(Pergunta::class, 'user_id');
+    }
+
     /**
      * The attributes that are mass assignable.
      *
