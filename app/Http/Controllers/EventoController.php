@@ -23,15 +23,14 @@ class EventoController extends Controller
      * AÇÃO ESPERADA:
      * Refatore a query para filtrar pelo evento, ordenar pelas mais recentes e paginar de 10 em 10.
      */
-    public function show($id)
+    public function show(int $id)
     {
         $evento = Evento::findOrFail($id);
 
-        // ⚠ BUG LEGADO: Carrega TODOS os registros da tabela no PHP
-        $perguntas = Pergunta::where('evento_id', $id)
-          ->with(['usuario'])
-          ->latest()
-          ->paginate(10);
+        $perguntas = $evento->perguntas()
+            ->with('usuario')
+            ->latest()
+            ->paginate(10);
 
         return view('eventos.show', compact('evento', 'perguntas'));
     }
@@ -40,7 +39,7 @@ class EventoController extends Controller
      * TICKET #001 (BUG LEGADO DE SEGURANÇA):
      * Salva a pergunta usando a requisição sem validações rigorosas.
      */
-    public function storePergunta(StorePerguntaRequest $request, $id)
+    public function storePergunta(StorePerguntaRequest $request, int $id)
     {
         $evento = Evento::findOrFail($id);
 
