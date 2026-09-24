@@ -28,11 +28,13 @@ class EventoController extends Controller
         $evento = Evento::findOrFail($id);
 
         $perguntas = $evento->perguntas()
-            ->with('usuario')
-            ->latest()
-            ->paginate(10);
+          ->with('user')
+          ->where('is_public', true)
+          ->latest()
+          ->paginate(10);
+        
 
-        return view('eventos.show', compact('evento', 'perguntas'));
+       return view('evento.show', ['evento' => $evento, 'perguntas' => $perguntas, ]);
     }
 
     /**
